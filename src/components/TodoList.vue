@@ -1,5 +1,6 @@
 <template>
   <div id="todo-list">
+    <h2> {{$route.params.id}}</h2>
     <input  type="text" class="todo-input"
            placeholder="what needs to be done?"
            v-model="newTodo"
