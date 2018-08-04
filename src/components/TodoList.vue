@@ -156,11 +156,11 @@
 
   #todo-list {
     float:right;
-    width: 50%;
+    width: 65%;
     height: 80%;
-    margin: 60px 100px;
+    margin: 60px 40px;
     padding: 15px 15px;
-    background-color:	white;
+    border: 1px solid white;
     border-radius: 5px;
   }
 
@@ -178,10 +178,6 @@
     }
   }
 
-  input[type="checkbox"] {
-    background: url(../assets/check.png) no-repeat;
-    cursor: pointer;
-  }
   .todo-item {
     margin-bottom: 12px;
     display: flex;

@@ -1,15 +1,19 @@
 <template>
   <div id="app">
+    <menu></menu>
     <todo-list/>
     <router-view/>
+    <projects/>
   </div>
 </template>
 
 <script>
   import TodoList from './components/TodoList'
+  import Projects from './components/Projects'
+  import Menu from './components/Menu'
   export default {
     name: 'App',
-    components: { TodoList }
+    components: { TodoList, Projects, Menu }
   }
 </script>
 
