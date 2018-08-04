@@ -1,8 +1,21 @@
 <template>
   <div id="projects">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"></li>
-      </ul>
+    <h3> Projects </h3>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Job</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Buy</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Private</a>
+      </li>
+    </ul>
+    <userinfo v-bind:listProjects="listProjects"></userinfo>
     </div>
 </template>
 
@@ -15,8 +28,8 @@
 <style>
   #projects {
     position:absolute;
+    float:left;
     width: 25%;
-    height: 80%;
     margin: 60px 20px;
     padding: 15px 15px;
     border: 1px solid white;

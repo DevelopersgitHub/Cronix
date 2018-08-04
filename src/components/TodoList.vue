@@ -54,6 +54,7 @@
         </transition>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -66,6 +67,20 @@
         idForTodo: 3,
         beforeEditCache: '',
         filter: 'all',
+        listProjects : [
+          {
+            name: 'Private',
+            todo: this.todos
+          },
+          {
+            name: 'Buy',
+            todo: this.todos
+          },
+          {
+            name: 'Job',
+            todo: this.todos
+          }
+        ],
         todos: [
           {
             'id': 1,
@@ -155,10 +170,10 @@
   @import url("https://cdnjs.cloudFlare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
 
   #todo-list {
+    position:absolute;
     float:right;
     width: 65%;
-    height: 80%;
-    margin: 60px 40px;
+    margin: 60px 400px;
     padding: 15px 15px;
     border: 1px solid white;
     border-radius: 5px;

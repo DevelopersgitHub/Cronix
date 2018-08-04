@@ -6,6 +6,15 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+Vue.component('userinfo', {
+  props: ["listProjects"],
+  template: `<ol>
+                <li v-for="project in listProjects">
+                    <p>{{project.name}}</p>
+                </li>
+            </ol>`
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
