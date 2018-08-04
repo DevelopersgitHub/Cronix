@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <menu></menu>
     <todo-list/>
-    <router-view/>
     <projects/>
+    <menu/>
+    <router-view/>
   </div>
 </template>
 
