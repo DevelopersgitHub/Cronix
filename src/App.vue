@@ -17,7 +17,7 @@
   html,body{
     margin:0;
     padding:0;
-    background:#ad130b url("./assets/background.jpg") repeat-x center top;
+    background: whitesmoke url("./assets/background.jpg") repeat-x center top;
   }
   #app {
     min-width:960px;

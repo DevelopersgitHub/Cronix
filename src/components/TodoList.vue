@@ -1,6 +1,6 @@
 <template>
   <div id="todo-list">
-    <input type="text" class="todo-input"
+    <input  type="text" class="todo-input"
            placeholder="what needs to be done?"
            v-model="newTodo"
            @keyup.enter="addTodo"/>
@@ -28,27 +28,27 @@
     <div class="extra-container">
       <div>
         <label><input type="checkbox" :checked="!anyRemaining"
-                      @change="checkAllTodos"/>Check All</label>
+                      @change="checkAllTodos"/> Check All</label>
       </div>
       <div>{{remaining}} items left</div>
     </div>
 
     <div class="extra-container">
       <div>
-        <button :class="{active: filter == 'all'}"
+        <button class="btn btn-info" :class="{active: filter == 'all'}"
                 @click="filter='all'">All
         </button>
-        <button :class="{active: filter=='active'}"
+        <button class="btn btn-info" :class="{active: filter=='active'}"
                 @click="filter = 'active'">Active
         </button>
-        <button :class="{active: filter == 'completed'}"
+        <button class="btn btn-info" :class="{active: filter == 'completed'}"
                 @click="filter='completed'">Completed
         </button>
       </div>
 
       <div>
         <transition name="fade">
-          <button v-if="showClearCompletedButton"
+          <button class="btn btn-info" v-if="showClearCompletedButton"
                   @click="clearCompleted">Clear Completed
           </button>
         </transition>
@@ -154,13 +154,10 @@
 
   @import url("https://cdnjs.cloudFlare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
 
-  html,body{
-  }
-
   #todo-list {
     float:right;
     width: 50%;
-    height: 50%;
+    height: 80%;
     margin: 60px 100px;
     padding: 15px 15px;
     background-color:	white;
@@ -181,6 +178,10 @@
     }
   }
 
+  input[type="checkbox"] {
+    background: url(../assets/check.png) no-repeat;
+    cursor: pointer;
+  }
   .todo-item {
     margin-bottom: 12px;
     display: flex;
