@@ -1,6 +1,6 @@
 <template>
   <div id="projects">
-    <h2 class="borderProject"> Projects </h2>
+    <h3 class="borderProject"> Projects </h3>
       <ul class="borderProject" style="list-style-type: none">
         <li><router-link :to="{ name: 'project', params: { id: 'Home' }}">Home</router-link></li>
         <li><router-link :to="{ name: 'project', params: { id: 'Job' }}">Job</router-link></li>
