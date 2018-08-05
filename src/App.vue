@@ -1,19 +1,23 @@
 <template>
   <div id="app">
     <todo-list/>
-    <projects/>
-    <menu/>
     <router-view/>
   </div>
 </template>
 
 <script>
-  import Menu from './components/Menu'
   import TodoList from './components/TodoList'
-  import Projects from './components/Projects'
   export default {
     name: 'App',
-    components: { Menu, Projects, TodoList }
+    components: { TodoList },
+    methods: {
+      addTodo(title) {
+        this.todos.push({
+          title,
+          done: false,
+        });
+      },
+    },
   }
 </script>
 
