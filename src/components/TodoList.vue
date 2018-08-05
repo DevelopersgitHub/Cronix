@@ -8,7 +8,7 @@
 
       <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
 
-        <div v-for="(todo, index) in todosFiltered && compList" :key="todo.id" class="todo-item">
+        <div v-for="(todo, index) in [compList, todosFiltered]" :key="todo.id" class="todo-item">
 
           <input type="checkbox" v-model="todo.completed"/>
 
@@ -68,20 +68,22 @@
 
     <div class="projects">
       <h3 class="borderProject"> Projects </h3>
+
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
-        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects" @click="filterProject='{{project.name}}'">
-          <a href="#">{{project.name}}</a>
+
+        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects">
+          <a href="#" @click="filterProject=project.name">{{project.name}} </a>
         </li>
       </ul>
-      <input type="text" v-model="nameProject"/>
-      <button type="button" v-on:click="addProject(nameProject)" @keyup.enter="addProject(nameProject)" class="btn btn-info, projectsButton">Add project
+
+      <input type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
+      <button type="button" class="btn btn-info, projectsButton" v-on:click="addProject(nameProject)"> Add project
       </button>
       <!--
       <button type="button" @keyup.enter="doneEditProject(nameProject)" class="btn btn-info, projectsButton">Edit
         project
-      </button>-->
-    </div>
-     <!-- <div class="btn-group" role="group" aria-label="Basic example">
+      </button>
+      <div class="btn-group" role="group" aria-label="Basic example">
         <button class="btn btn-secondary" :class="{active: filterProject == 'Home'}"
                 @click="filterProject='Home'">Home
         </button>
@@ -96,7 +98,7 @@
         </button>
       </div>-->
 
-     <!-- <ul>
+      <!--<ul>
         <li class="list-group-item list-group-item-action" @click="filterProject='Home'">
           <a href="#" v-on:click="showProject">Home</a><span class="badge badge-primary badge-pill">0</span>
         </li>
@@ -110,7 +112,7 @@
           <a href="#" v-on:click="showProject">Private</a><span class="badge badge-primary badge-pill">0</span>
         </li>
       </ul>-->
-
+    </div>
 
   </div>
 </template>
@@ -170,6 +172,9 @@
       anyRemaining() {
         return this.remaining != 0;
       },
+      showClearCompletedButton() {
+        return this.todos.filter(todo => todo.completed).length > 0;
+      },
       todosFiltered() {
         if (this.filter == 'all') {
           return this.todos;
@@ -179,9 +184,6 @@
           return this.todos.filter(todo => todo.completed);
         }
         return this.todos;
-      },
-      showClearCompletedButton() {
-        return this.todos.filter(todo => todo.completed).length > 0;
       },
       compList() {
         if (this.filterProject == '') {
@@ -197,6 +199,19 @@
         }
         return this.todos;
       },
+      filterProperty(project) {
+          if(project.name === '') {
+            return '';
+          } else if(project.name === 'Home') {
+            return 'Home';
+          } else if(project.name === 'Buy') {
+            return 'Buy';
+          } else if(project.name === 'Job') {
+            return 'Job';
+          } else if(project.name === 'Private') {
+            return 'Private'
+          }
+      }
     },
     directives: {
       focus: {
