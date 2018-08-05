@@ -5,19 +5,12 @@
              placeholder="what needs to be done?"
              v-model="newTodo"
              @keyup.enter="addTodo"/>
-
       <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-
         <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
-
           <input type="checkbox" v-model="todo.completed"/>
-
           <div class="todo-item-left">
-            <div v-if="!todo.editing" @dblclick="editTodo(todo)"
-                 class="todo-item-label"
-                 :class="{ completed : todo.completed }">{{todo.title}}
-            </div>
-
+            <div  v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
+                 :class="{ completed : todo.completed }">{{todo.title}}</div>
             <input v-else class="todo-item-edit" type="text"
                    v-model="todo.title"
                    @blur="doneEdit(todo)"
@@ -25,7 +18,6 @@
                    @keyup.esc="cancelEdit(todo)"
                    v-focus/>
           </div>
-
           <div class="remove-item" @click="removeTodo(index)">
             &times;
           </div>
@@ -39,7 +31,6 @@
         </div>
         <div>{{remaining}} items left</div>
       </div>
-
       <div class="extra-container">
         <div>
           <button class="btn btn-info" :class="{active: filter=='all'}"
@@ -52,7 +43,6 @@
                   @click="filter='completed'">Completed
           </button>
         </div>
-
         <div>
           <transition name="fade">
             <button class="btn btn-info" v-if="showClearCompletedButton"
@@ -62,16 +52,21 @@
         </div>
       </div>
     </div>
-
-
     <div class="projects">
       <h3 class="borderProject"> Projects </h3>
-
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
-
         <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects"
             @click="filterProject=project.name">
-          <a href="#">{{project.name}}</a><span class="remove-item-project" @click="removeProject(index)">&times;</span>
+          <img class="edit-item-project" src="../assets/edit.jpg" width="10px" height="10px"
+               v-if="!project.editing" @click="editProject(project)" />
+          <input v-else class="todo-item-edit" type="text"
+                 v-model="project.name"
+                 @blur="doneEditProject(project)"
+                 @keyup.enter="doneEditProject(project)"
+                 @keyup.esc="cancelEditProject(project)"
+                 v-focus/>
+          <a href="#">{{project.name}}</a>
+          <span class="remove-item-project" @click="removeProject(index)">&times;</span>
         </li>
       </ul>
 
@@ -90,28 +85,38 @@
       return {
         newTodo: '',
         idForTodo: 3,
-        idForProject: 5,
+        idForProject: 6,
         beforeEditCache: '',
+        beforeEditCacheProject: '',
         filter: 'all',
         filterProject: 'Home',
         nameProject: '',
         listProjects: [
           {
-            id: 1,
-            name: 'Home'
+            'id': 1,
+            'name': 'Home',
+            'editing': false
           },
           {
-            id: 2,
-            name: 'Job'
+            'id': 2,
+            'name': 'Job',
+            'editing': false
           },
           {
-            id: 3,
-            name: 'Buy'
+            'id': 3,
+            'name': 'Study',
+            'editing': false
           },
           {
-            id: 4,
-            name: 'Private'
-          }
+            'id': 4,
+            'name': 'Buy',
+            'editing': false
+          },
+          {
+            'id': 5,
+            'name': 'Private',
+            'editing': false
+          },
         ],
         todos: [
           {
@@ -133,7 +138,7 @@
     },
     computed: {
       remaining() {
-        return this.todos.filter(todo => !todo.completed).length;
+        return this.todos.filter(todo => !todo.completed && todo.project === this.filterProject).length;
       },
       anyRemaining() {
         return this.remaining !== 0;
@@ -161,17 +166,33 @@
     },
     methods: {
       addTodo() {
-        if (this.newTodo.trim().length == 0) {
+        if (this.newTodo.trim().length === 0) {
           return
         }
         this.todos.push({
           id: this.idForTodo,
           title: this.newTodo,
           project: this.filterProject,
-          completed: false
+          completed: false,
+          editing: false
         });
         this.newTodo = '';
         this.idForTodo++;
+      },
+      addProject() {
+        if (this.nameProject.trim().length == 0) {
+          return
+        }
+        this.listProjects.push({
+          id: this.idForProject,
+          name: this.nameProject,
+          editing: false
+        });
+        this.nameProject = '';
+        this.idForProject++;
+      },
+      removeTodoProject(index) {
+        this.listProjects.splice(index, 1);
       },
       editTodo(todo) {
         this.beforeEditCache = todo.title;
@@ -186,6 +207,20 @@
       cancelEdit(todo) {
         todo.title = this.beforeEditCache;
         todo.editing = false;
+      },
+      editProject(project) {
+        this.beforeEditCacheProject = project.name;
+        project.editing = true;
+      },
+      doneEditProject(project) {
+        if (project.name.trim() == '') {
+          project.name = this.beforeEditCacheProject;
+        }
+        project.editing = false;
+      },
+      cancelEditProject(project) {
+        project.name = this.beforeEditCacheProject;
+        project.editing = false;
       },
       removeTodo(index) {
         this.todos.splice(index, 1);
@@ -204,20 +239,6 @@
           return todo.project === 'private'
         });
       },
-      addProject(nameProject) {
-        if (this.nameProject.trim().length == 0) {
-          return
-        }
-        this.listProjects.push({
-          id: this.idForProject,
-          name: this.nameProject
-        });
-        this.nameProject = '';
-        this.idForProject++;
-      },
-      removeTodoProject(index) {
-        this.listProjects.splice(index, 1);
-      }
     }
   }
 </script>
@@ -258,11 +279,10 @@
   }
 
   .nameProject {
-    width:60%;
+    width: 60%;
     margin: 10px;
     border-radius: 5px;
   }
-
 
   .todo-input {
     width: 95%;
@@ -307,12 +327,22 @@
     }
   }
 
+  .edit-item-project {
+    cursor: pointer;
+    float: left;
+
+    &:hover {
+      color: black;
+    }
+  }
+
   .todo-item-left {
     display: flex;
     align-items: center;
   }
 
   .todo-item-label {
+    width: 250px;
     padding: 10px;
     border: 1px solid #a7c1c7;
     color: #177878;
@@ -321,6 +351,7 @@
   }
 
   .todo-item-edit {
+    width: 250px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e58;
     margin-left: 12px;
