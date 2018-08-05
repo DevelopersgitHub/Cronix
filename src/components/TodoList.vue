@@ -71,12 +71,12 @@
 
         <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects"
             @click="filterProject=project.name">
-          <a href="#">{{project.name}} </a>
+          <a href="#">{{project.name}}</a><span class="remove-item-project" @click="removeProject(index)">&times;</span>
         </li>
       </ul>
 
-      <input type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
-      <button type="button" class="btn btn-info, projectsButton" v-on:click="addProject(nameProject)"> Add project
+      <input class="nameProject" type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
+      <button type="button" class="btn btn-info" v-on:click="addProject(nameProject)"> Add project
       </button>
     </div>
 
@@ -167,6 +167,7 @@
         this.todos.push({
           id: this.idForTodo,
           title: this.newTodo,
+          project: this.filterProject,
           completed: false
         });
         this.newTodo = '';
@@ -188,6 +189,9 @@
       },
       removeTodo(index) {
         this.todos.splice(index, 1);
+      },
+      removeProject(index) {
+        this.listProjects.splice(index, 1);
       },
       checkAllTodos() {
         this.todos.forEach((todo) => todo.completed = event.target.checked);
@@ -236,10 +240,6 @@
     border-radius: 5px;
   }
 
-  .projectsButton {
-    margin-top: 5px;
-  }
-
   #todo-list {
     float: right;
     width: 65%;
@@ -256,6 +256,13 @@
     padding: 20px;
     margin-bottom: 20px;
   }
+
+  .nameProject {
+    width:60%;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
 
   .todo-input {
     width: 95%;
@@ -285,6 +292,15 @@
   .remove-item {
     cursor: pointer;
     margin-left: 14px;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .remove-item-project {
+    cursor: pointer;
+    float: right;
 
     &:hover {
       color: black;
