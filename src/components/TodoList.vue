@@ -12,13 +12,11 @@
 
           <input type="checkbox" v-model="todo.completed"/>
 
-
           <div class="todo-item-left">
             <div v-if="!todo.editing" @dblclick="editTodo(todo)"
                  class="todo-item-label"
                  :class="{ completed : todo.completed }">{{todo.title}}
             </div>
-
 
             <input v-else class="todo-item-edit" type="text"
                    v-model="todo.title"
@@ -80,39 +78,6 @@
       <input type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
       <button type="button" class="btn btn-info, projectsButton" v-on:click="addProject(nameProject)"> Add project
       </button>
-      <!--
-      <button type="button" @keyup.enter="doneEditProject(nameProject)" class="btn btn-info, projectsButton">Edit
-        project
-      </button>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button class="btn btn-secondary" :class="{active: filterProject == 'Home'}"
-                @click="filterProject='Home'">Home
-        </button>
-        <button class="btn btn-secondary" :class="{active: filterProject=='Job'}"
-                @click="filterProject = 'Job'">Job
-        </button>
-        <button class="btn btn-secondary" :class="{active: filterProject == 'Buy'}"
-                @click="filterProject='Buy'">Buy
-        </button>
-        <button class="btn btn-secondary" :class="{active: filterProject == 'Private'}"
-                @click="filterProject='Private'">Private
-        </button>
-      </div>-->
-
-      <!--<ul>
-        <li class="list-group-item list-group-item-action" @click="filterProject='Home'">
-          <a href="#" v-on:click="showProject">Home</a><span class="badge badge-primary badge-pill">0</span>
-        </li>
-        <li class="list-group-item list-group-item-action" @click="filterProject='Job'">
-          <a href="#">Job</a><span class="badge badge-primary badge-pill">0</span>
-        </li>
-        <li class="list-group-item list-group-item-action" @click="filterProject='Buy'">
-          <a href="#" v-on:click="showProject">Buy</a><span class="badge badge-primary badge-pill">0</span>
-        </li>
-        <li class="list-group-item list-group-item-action" @click="filterProject='Private'">
-          <a href="#" v-on:click="showProject">Private</a><span class="badge badge-primary badge-pill">0</span>
-        </li>
-      </ul>-->
     </div>
 
   </div>
@@ -177,7 +142,14 @@
         return this.todos.filter(todo => todo.completed).length > 0;
       },
       todosFiltered() {
-        return this.todos.filter(todo=>todo.completed === this.filter && todo.project === this.filterProject)
+        switch (this.filter) {
+          case 'all':
+            return this.todos.filter(todo => todo.project === this.filterProject);
+          case 'active':
+            return this.todos.filter(todo => !todo.completed && todo.project === this.filterProject);
+          case 'completed':
+            return this.todos.filter(todo => todo.completed && todo.project === this.filterProject);
+        }
       },
     },
     directives: {
