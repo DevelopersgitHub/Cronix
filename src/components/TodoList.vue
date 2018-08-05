@@ -8,7 +8,7 @@
 
       <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
 
-        <div v-for="(todo, index) in [compList, todosFiltered]" :key="todo.id" class="todo-item">
+        <div v-for="(todo, index) in [...compList, todosFiltered]" :key="todo.id" class="todo-item">
 
           <input type="checkbox" v-model="todo.completed"/>
 
@@ -71,8 +71,8 @@
 
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
 
-        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects">
-          <a href="#" @click="filterProject=project.name">{{project.name}} </a>
+        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects" @click="filterProject=project.name">
+          <a href="#">{{project.name}} </a>
         </li>
       </ul>
 
