@@ -8,7 +8,7 @@
 
       <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
 
-        <div v-for="(todo, index) in [...compList, todosFiltered]" :key="todo.id" class="todo-item">
+        <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
 
           <input type="checkbox" v-model="todo.completed"/>
 
@@ -44,11 +44,11 @@
 
       <div class="extra-container">
         <div>
-          <button class="btn btn-info" :class="{active: filter == 'all'}"
+          <button class="btn btn-info" :class="{active: filter=='all'}"
                   @click="filter='all'">All
           </button>
           <button class="btn btn-info" :class="{active: filter=='active'}"
-                  @click="filter = 'active'">Active
+                  @click="filter='active'">Active
           </button>
           <button class="btn btn-info" :class="{active: filter == 'completed'}"
                   @click="filter='completed'">Completed
@@ -71,7 +71,8 @@
 
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
 
-        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects" @click="filterProject=project.name">
+        <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects"
+            @click="filterProject=project.name">
           <a href="#">{{project.name}} </a>
         </li>
       </ul>
@@ -170,48 +171,14 @@
         return this.todos.filter(todo => !todo.completed).length;
       },
       anyRemaining() {
-        return this.remaining != 0;
+        return this.remaining !== 0;
       },
       showClearCompletedButton() {
         return this.todos.filter(todo => todo.completed).length > 0;
       },
       todosFiltered() {
-        if (this.filter == 'all') {
-          return this.todos;
-        } else if (this.filter == 'active') {
-          return this.todos.filter(todo => !todo.completed);
-        } else if (this.filter == 'completed') {
-          return this.todos.filter(todo => todo.completed);
-        }
-        return this.todos;
+        return this.todos.filter(todo=>todo.completed === this.filter && todo.project === this.filterProject)
       },
-      compList() {
-        if (this.filterProject == '') {
-          return '';
-        } else if (this.filterProject == 'Home') {
-          return this.todos.filter(todo => todo.project === 'Home');
-        } else if (this.filterProject == 'Job') {
-          return this.todos.filter(todo => todo.project === 'Job');
-        } else if (this.filterProject == 'Buy') {
-          return this.todos.filter(todo => todo.project === 'Buy');
-        } else if (this.filterProject == 'Private') {
-          return this.todos.filter(todo => todo.project === 'Private');
-        }
-        return this.todos;
-      },
-      filterProperty(project) {
-          if(project.name === '') {
-            return '';
-          } else if(project.name === 'Home') {
-            return 'Home';
-          } else if(project.name === 'Buy') {
-            return 'Buy';
-          } else if(project.name === 'Job') {
-            return 'Job';
-          } else if(project.name === 'Private') {
-            return 'Private'
-          }
-      }
     },
     directives: {
       focus: {
