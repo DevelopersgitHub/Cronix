@@ -9,8 +9,9 @@
         <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
           <input type="checkbox" v-model="todo.completed"/>
           <div class="todo-item-left">
-            <div  v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
-                 :class="{ completed : todo.completed }">{{todo.title}}</div>
+            <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
+                 :class="{ completed : todo.completed }">{{todo.title}}
+            </div>
             <input v-else class="todo-item-edit" type="text"
                    v-model="todo.title"
                    @blur="doneEdit(todo)"
@@ -52,29 +53,30 @@
         </div>
       </div>
     </div>
+
     <div class="projects">
       <h3 class="borderProject"> Projects </h3>
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
         <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects"
             @click="filterProject=project.name">
-          <img class="edit-item-project" src="../assets/edit.jpg" width="10px" height="10px"
-               v-if="!project.editing" @click="editProject(project)" />
+          <div  v-if="!project.editing">
+            <img class="edit-item-project" src="../assets/edit.jpg" width="10px" height="10px"
+                 @click="editProject(project)"/><a href="#">{{project.name}}</a>
+            <span class="remove-item-project" @click="removeProject(index)">&times;</span>
+          </div>
           <input v-else class="todo-item-edit" type="text"
                  v-model="project.name"
                  @blur="doneEditProject(project)"
                  @keyup.enter="doneEditProject(project)"
                  @keyup.esc="cancelEditProject(project)"
                  v-focus/>
-          <a href="#">{{project.name}}</a>
-          <span class="remove-item-project" @click="removeProject(index)">&times;</span>
+
         </li>
       </ul>
-
       <input class="nameProject" type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
       <button type="button" class="btn btn-info" v-on:click="addProject(nameProject)"> Add project
       </button>
     </div>
-
   </div>
 </template>
 
@@ -321,6 +323,7 @@
   .remove-item-project {
     cursor: pointer;
     float: right;
+    padding-bottom: 10px;
 
     &:hover {
       color: black;
