@@ -3,17 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false
 
-Vue.component('userinfo', {
+/*Vue.component('userinfo', {
   props: ["listProjects"],
   template: `<ol>
                 <li v-for="project in listProjects">
                     <p>{{project.name}}</p>
                 </li>
             </ol>`
-});
+});*/
 
 /* eslint-disable no-new */
 new Vue({

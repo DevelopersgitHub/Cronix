@@ -59,7 +59,7 @@
       <ul class="borderProject, list-group list-group-flush" style="list-style-type: none">
         <li class="list-group-item list-group-item-action" v-for="(project, index) in listProjects"
             @click="filterProject=project.name">
-          <div  v-if="!project.editing">
+          <div v-if="!project.editing">
             <img class="edit-item-project" src="../assets/edit.jpg" width="10px" height="10px"
                  @click="editProject(project)"/><a href="#">{{project.name}}</a>
             <span class="remove-item-project" @click="removeProject(index)">&times;</span>
@@ -70,7 +70,6 @@
                  @keyup.enter="doneEditProject(project)"
                  @keyup.esc="cancelEditProject(project)"
                  v-focus/>
-
         </li>
       </ul>
       <input class="nameProject" type="text" @keyup.enter="addProject(nameProject)" v-model="nameProject"/>
@@ -302,8 +301,7 @@
 
   .todo-item {
     width: 50%;
-    margin: 0 auto;
-    margin-bottom: 12px;
+    margin: 0 auto 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
